@@ -20,7 +20,24 @@ class StartPage(Page):
     def vars_for_template(self):
         is_training_round = self.session.config['training_round'] and self.round_number == 1
         return dict(is_training_round=is_training_round)
+        
+    # NEW: initialise per-round logs/series at round start
+    def before_next_page(self):
+        p = self.participant
+        pl = self.player
 
+        # Reset logs for this round
+        pl.portfolio_values_series = []
+        pl.trades_log_round = []
+        pl.anchors_round = []
+
+        # Record starting portfolio value if available
+        try:
+            pl.portfolio_value_start = getattr(pl, 'portfolio_value', None)
+            if pl.portfolio_value_start:
+                pl.portfolio_values_series.append(pl.portfolio_value_start)
+        except Exception:
+            pass
 
 class TradingPage(Page):
     live_method = 'live_trading_report'
