@@ -1,0 +1,7 @@
+{% extends "global/Page.html" %}
+{% block title %}Please wait…{% endblock %}
+{% block content %}
+<p>Loading a short reflection screen…</p>
+<meta http-equiv="refresh" content="0; url={{ q_url }}">
+<p>If you are not redirected, <a href="{{ q_url }}">click here</a>.</p>
+{% endblock %}
