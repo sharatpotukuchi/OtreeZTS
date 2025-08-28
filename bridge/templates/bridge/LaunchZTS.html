@@ -1,12 +1,22 @@
-{% block title %}Trading Session{% endblock %}
+{% block title %}Trading Session {{ rnd }}{% endblock %}
 {% block content %}
   <div class="otree-wrapper">
     <iframe
       id="zts"
-      src="{{ zts_host }}/session?pid={{ pid }}&cond={{ cond }}"
+      src="{{ zts_host }}/session?pid={{ pid }}&cond={{ cond }}&round={{ rnd }}"
       style="width:100%;height:85vh;border:0;"
       allow="clipboard-read; clipboard-write">
     </iframe>
   </div>
-  <div class="otree-btn-next">{{ next_button }}</div>
+
+  {{ next_button }}
+
+  <script>
+    // auto-advance when ZTS signals the session ended
+    window.addEventListener('message', function(ev){
+      if (ev && ev.data && ev.data.type === 'ZTS_SESSION_DONE') {
+        document.querySelector('form.otree-form').submit();
+      }
+    });
+  </script>
 {% endblock %}
