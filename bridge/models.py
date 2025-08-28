@@ -9,5 +9,6 @@ class Subsession(BaseSubsession): pass
 class Group(BaseGroup): pass
 
 class Player(BasePlayer):
-    pid = models.StringField()
+    pid  = models.StringField()
     cond = models.IntegerField(choices=[0,1], initial=0)
+    round_index = models.IntegerField(initial=1)
